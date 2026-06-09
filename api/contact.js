@@ -1,17 +1,28 @@
 const sgMail = require("@sendgrid/mail");
 
-const fromEmail = process.env.FROM_EMAIL;
-const toEmail = process.env.TO_EMAIL;
 const sendgridApiKey = process.env.SENDGRID_API_KEY;
 
 module.exports = async function contactHandler(request, response) {
+  // 1. Nastavení CORS hlaviček pro komunikaci s GitHub Pages
+  response.setHeader("Access-Control-Allow-Credentials", true);
+  response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+  response.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Content-Type");
+
+  // Ošetření předběžného dotazu prohlížeče (Preflight OPTIONS request)
+  if (request.method === "OPTIONS") {
+    return response.status(200).end();
+  }
+
+  // Kontrola, zda jde o POST požadavek
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
     return response.status(405).json({ message: "Pouzijte POST pozadavek." });
   }
 
-  if (!sendgridApiKey || !fromEmail || !toEmail) {
-    return response.status(500).json({ message: "Chybi nastaveni e-mailu." });
+  // Kontrola API klíče
+  if (!sendgridApiKey) {
+    return response.status(500).json({ message: "Chybi nastaveni SENDGRID_API_KEY ve Vercelu." });
   }
 
   const { name, email, message } = request.body || {};
@@ -31,8 +42,8 @@ module.exports = async function contactHandler(request, response) {
 
   try {
     await sgMail.send({
-      to: adamjedlicka1020@gmail.com,
-      from: teamadev.info@gmail.com,
+      to: "adamjedlicka1020@gmail.com",       // Opraveno: Přidány uvozovky
+      from: "teamadev.info@gmail.com",     // Opraveno: Přidány uvozovky (Tento mail musí být ověřený v SendGridu!)
       replyTo: cleanEmail,
       subject: `Nova zprava z webu Team ADEV od ${cleanName}`,
       text: [
@@ -53,6 +64,7 @@ module.exports = async function contactHandler(request, response) {
 
     return response.status(200).json({ message: "Zprava byla odeslana." });
   } catch (error) {
+    console.error("SendGrid error logs:", error); // Tohle vypíše detail chyby do Vercel logů, pokud to selže
     return response.status(500).json({ message: "SendGrid zpravu neodeslal." });
   }
 };
