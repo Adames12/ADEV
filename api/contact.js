@@ -31,8 +31,8 @@ module.exports = async function contactHandler(request, response) {
 
   try {
     await sgMail.send({
-      to: toEmail,
-      from: fromEmail,
+      to: adamjedlicka1020@gmail.com,
+      from: teamadev.info@gmail.com,
       replyTo: cleanEmail,
       subject: `Nova zprava z webu Team ADEV od ${cleanName}`,
       text: [
