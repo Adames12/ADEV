@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ADEV/static/css/main.38360961.css",
+    "main.js": "/ADEV/static/js/main.d89d7b68.js",
+    "index.html": "/ADEV/index.html",
+    "main.38360961.css.map": "/ADEV/static/css/main.38360961.css.map",
+    "main.d89d7b68.js.map": "/ADEV/static/js/main.d89d7b68.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.38360961.css",
+    "static/js/main.d89d7b68.js"
+  ]
+}
