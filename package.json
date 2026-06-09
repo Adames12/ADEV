@@ -1,0 +1,14 @@
+{
+  "name": "team-adev-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.5"
+  },
+  "devDependencies": {
+    "vercel": "^48.8.2"
+  }
+}
