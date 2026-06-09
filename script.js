@@ -32,7 +32,7 @@ contactForm?.addEventListener("submit", (event) => {
     message: String(formData.get("message") || "").trim(),
   };
 
-  fetch("/api/contact", {
+  fetch("https://adev-puce.vercel.app/api/contact", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
