@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Team ADEV | Tvorba webu a digitální řešení</title>
+    <meta
+      name="description"
+      content="Team ADEV vytváří přehledné weby, aplikace a digitální řešení pro malé firmy, projekty a tvůrce."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas class="gold-field" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Team ADEV domov">
+        <span class="brand-mark">
+          <img src="assets/adev-logo.png" alt="" />
+        </span>
+        <span>Team ADEV</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Otevřít menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Hlavni navigace">
+        <a href="#služby">Služby</a>
+        <a href="#postup">Postup</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero reveal">
+        <div class="hero-content">
+          <div class="hero-logo-wrap" aria-hidden="true">
+            <img class="hero-logo" src="assets/adev-logo.png" alt="" />
+          </div>
+          <p class="eyebrow">Weby, aplikace, digitální nápady</p>
+          <h1>Team ADEV</h1>
+          <p class="hero-text">
+            Pomáháme převést nápad do čisté, rychlé a použitelné webové stránky,
+            která vypadá dobře na počítači i telefonu.
+          </p>
+          <div class="gold-signature" aria-label="Zlaty podpis Adames">
+            <svg viewBox="0 0 720 170" role="img" aria-labelledby="signature-title">
+              <title id="signature-title">Adames</title>
+              <defs>
+                <linearGradient id="signatureGold" x1="20" y1="20" x2="710" y2="130" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fff3bd" />
+                  <stop offset="0.4" stop-color="#ffd76a" />
+                  <stop offset="0.72" stop-color="#f0a91f" />
+                  <stop offset="1" stop-color="#fff0a8" />
+                </linearGradient>
+              </defs>
+              <path class="signature-stroke signature-line" d="M18 118 C118 88 252 84 360 82 C492 80 620 84 708 105" />
+              <path class="signature-stroke signature-a" d="M28 146 C42 88 92 28 168 14 C224 4 260 31 258 76 C256 112 242 144 236 164 M30 117 C98 95 178 84 250 82" />
+              <text class="signature-word" x="260" y="84">dames</text>
+            </svg>
+          </div>
+          <div class="hero-actions">
+            <a class="button primary" href="#kontakt">Domluvit projekt</a>
+            <a class="button secondary" href="#služby">Co umíme</a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="Náhled webového projektu">
+          <img src="assets/project-preview.svg" alt="Ukazka moderni webove stranky" />
+        </div>
+      </section>
+
+      <section class="section strip reveal" aria-label="Přehled výhod">
+        <div class="metric">
+          <strong>Responzivně</strong>
+          <span>Vzhled pro mobil, tablet i desktop</span>
+        </div>
+        <div class="metric">
+          <strong>Přehledně</strong>
+          <span>Jednoduchá struktura a jasné výzvy</span>
+        </div>
+        <div class="metric">
+          <strong>Prakticky</strong>
+          <span>Základ připravený pro další rozšíření</span>
+        </div>
+      </section>
+
+      <section id="služby" class="section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Služby</p>
+          <h2>Co umíme postavit</h2>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon">01</div>
+            <h3>Firemní web</h3>
+            <p>Stránka s úvodem, službami, kontaktem a jasným směrem pro návštěvníka.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">02</div>
+            <h3>Portfolio</h3>
+            <p>Přehled prací, referencí nebo projektů v jednoduché a profesionalní formě.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">03</div>
+            <h3>Webová aplikace</h3>
+            <p>Interaktivní nástroj, formulář, rezervace nebo interní systém podle potřeby.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="postup" class="section process-section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Postup</p>
+          <h2>Jak budeme pokračovat</h2>
+        </div>
+
+        <ol class="process">
+          <li>
+            <span>1</span>
+            <div>
+              <h3>Zadání</h3>
+              <p>Vyjasníme cíl webu, texty, barvy a komu má stránka sloužit.</p>
+            </div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>
+              <h3>Návrh</h3>
+              <p>Upravíme rozložení, obsah a styl tak, aby seděl přesně vašemu projektu.</p>
+            </div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>
+              <h3>Dokončení</h3>
+              <p>Doplníme reálné údaje, otestujeme zobrazení a připravíme web k publikování.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="kontakt" class="section contact-section reveal">
+        <div class="contact-copy">
+          <p class="eyebrow">Kontakt</p>
+          <h2>Máte nápad? Pojďme ho dostat na web.</h2>
+          <p>
+            Napište krátce, co potřebujete vytvořit. Texty a kontakt se dají snadno
+            upravit přímo v této stránce.
+          </p>
+        </div>
+
+        <form class="contact-form">
+          <label>
+            Jméno
+            <input type="text" name="name" placeholder="Vaše jméno" />
+          </label>
+          <label>
+            E-mail
+            <input type="email" name="email" placeholder="váš@email.cz" />
+          </label>
+          <label>
+            Zpráva
+            <textarea name="message" rows="5" placeholder="Co chcete vytvořit?"></textarea>
+          </label>
+          <button class="button primary" type="submit">Odeslat zprávu</button>
+          <p class="form-note">Formulář je zatím ukázkový. Pro reálné odesílání se připojí e-mail nebo backend.</p>
+        </form>
+      </section>
+
+      <section id="ochrana" class="section legal-section reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Informace</p>
+          <h2>Ochrana osobních údajů</h2>
+        </div>
+
+        <div class="legal-grid">
+          <article class="legal-panel">
+            <h3>Provozovatel webu</h3>
+            <p>
+              Tento web provozuje Team ADEV. Pro kontakt použijte e-mail
+              <a href="mailto:teamadev.info@gmail.com">teamadev.info@gmail.com</a>
+              nebo telefon <a href="tel:+420778427771">+420 778 427 771</a>.
+            </p>
+          </article>
+
+          <article class="legal-panel">
+            <h3>Kontaktní formulář</h3>
+            <p>
+              Pokud odešlete formulář, zpracujeme vaše jméno, e-mail a zprávu
+              pouze za účelem odpovědi na vaši poptávku nebo dotaz.
+            </p>
+          </article>
+
+          <article class="legal-panel">
+            <h3>Odesílání e-mailu</h3>
+            <p>
+              Zprávy z formuláře mohou být technicky zpracovány službami Vercel
+              a SendGrid, které zajišťují provoz webu a doručení e-mailu.
+            </p>
+          </article>
+
+          <article class="legal-panel">
+            <h3>Cookies a analytika</h3>
+            <p>
+              Web nyní nepoužívá reklamní sledování ani analytické cookies.
+              Pokud budou později přidány, bude doplněno upozornění a nastavení souhlasu.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="footer-logo">
+          <img src="assets/adev-logo.png" alt="" />
+        </span>
+        <div>
+          <strong>Team ADEV</strong>
+          <span>Moderní weby, aplikace a digitální řešení.</span>
+        </div>
+      </div>
+
+      <div class="footer-contact">
+        <a href="mailto:teamadev.info@gmail.com">teamadev.info@gmail.com</a>
+        <a href="tel:+420778427771">+420 778 427 771</a>
+      </div>
+
+      <nav class="footer-links" aria-label="Odkazy v paticce">
+        <a href="#home">Domů</a>
+        <a href="#služby">Služby</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#ochrana">Ochrana údajů</a>
+      </nav>
+
+      <div class="footer-bottom">
+        <span>© 2026 Team ADEV. Vsechna prava vyhrazena.</span>
+        <span>Designed by Adam Jedlička</span>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
