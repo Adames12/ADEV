@@ -4,6 +4,7 @@ const contactForm = document.querySelector(".contact-form");
 const formNote = document.querySelector(".form-note");
 const revealItems = document.querySelectorAll(".reveal");
 const goldField = document.querySelector(".gold-field");
+const customSelects = document.querySelectorAll("[data-select]");
 
 navToggle?.addEventListener("click", () => {
   const isOpen = siteNav.classList.toggle("is-open");
@@ -15,6 +16,47 @@ siteNav?.addEventListener("click", (event) => {
     siteNav.classList.remove("is-open");
     navToggle?.setAttribute("aria-expanded", "false");
   }
+});
+
+customSelects.forEach((select) => {
+  const trigger = select.querySelector(".custom-select-trigger");
+  const triggerText = trigger?.querySelector("span");
+  const menu = select.querySelector(".custom-select-menu");
+  const hiddenInput = select.closest(".field")?.querySelector('input[type="hidden"]');
+  const options = select.querySelectorAll("[data-value]");
+
+  trigger?.addEventListener("click", () => {
+    const isOpen = select.classList.toggle("is-open");
+    trigger.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      const value = option.dataset.value || "";
+      if (triggerText) triggerText.textContent = value;
+      if (hiddenInput) hiddenInput.value = value;
+
+      options.forEach((item) => item.setAttribute("aria-selected", "false"));
+      option.setAttribute("aria-selected", "true");
+      select.classList.remove("is-open");
+      trigger?.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!select.contains(event.target)) {
+      select.classList.remove("is-open");
+      trigger?.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  menu?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      select.classList.remove("is-open");
+      trigger?.setAttribute("aria-expanded", "false");
+      trigger?.focus();
+    }
+  });
 });
 
 contactForm?.addEventListener("submit", (event) => {
@@ -32,6 +74,8 @@ contactForm?.addEventListener("submit", (event) => {
   const formData = new FormData(contactForm);
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
+  const phone = String(formData.get("phone") || "").trim();
+  const projectType = String(formData.get("projectType") || "Webova stranka").trim();
   const message = String(formData.get("message") || "").trim();
 
   if (!name || !email || !message) {
@@ -52,12 +96,27 @@ contactForm?.addEventListener("submit", (event) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      access_key: "24d1fc1d-552a-4ad7-93f6-cd0bd2ffb8c9",
-      subject: "Nova zprava z webu Team ADEV",
-      from_name: "Team ADEV web",
-      name,
+      access_key: "VLOZTE_SEM_WEB3FORMS_ACCESS_KEY",
+      subject: `Nova poptavka Team ADEV - ${projectType}`,
+      from_name: "Team ADEV - kontaktni formular",
+      name: `Jmeno: ${name}`,
       email,
-      message,
+      phone: phone || "Neuvedeno",
+      project_type: projectType,
+      message: [
+        "Nova zprava z webu Team ADEV",
+        "",
+        `Jmeno: ${name}`,
+        `E-mail: ${email}`,
+        `Telefon: ${phone || "Neuvedeno"}`,
+        `Typ projektu: ${projectType}`,
+        "",
+        "Zprava:",
+        message,
+        "",
+        "Rychla odpoved:",
+        phone ? "Zavolat nebo odpovedet na e-mail." : "Odpovedet na e-mail.",
+      ].join("\n"),
     }),
   })
     .then(async (response) => {
@@ -75,7 +134,7 @@ contactForm?.addEventListener("submit", (event) => {
     .catch((error) => {
       button.textContent = "Chyba odeslani";
       if (formNote) {
-        formNote.textContent = `Duvod: ${error.message || "Zkontrolujte nastaveni Vercel a SendGrid."}`;
+        formNote.textContent = `Duvod: ${error.message || "Zkontrolujte Web3Forms access key."}`;
       }
     })
     .finally(() => {
