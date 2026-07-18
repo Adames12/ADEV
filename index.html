@@ -164,10 +164,30 @@
             <input type="email" name="email" placeholder="váš@email.cz" />
           </label>
           <label>
+            Telefon pro rychlou odpověď
+            <input type="tel" name="phone" placeholder="+420 777 777 777" />
+          </label>
+          <div class="field">
+            Typ projektu
+            <input type="hidden" name="projectType" value="Webová stránka" />
+            <div class="custom-select" data-select>
+              <button class="custom-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span>Webová stránka</span>
+              </button>
+              <div class="custom-select-menu" role="listbox">
+                <button type="button" role="option" aria-selected="true" data-value="Webová stránka">Webová stránka</button>
+                <button type="button" role="option" aria-selected="false" data-value="Portfolio">Portfolio</button>
+                <button type="button" role="option" aria-selected="false" data-value="Webová aplikace">Webová aplikace</button>
+                <button type="button" role="option" aria-selected="false" data-value="Jiné">Jiné</button>
+              </div>
+            </div>
+          </div>
+          <label>
             Zpráva
             <textarea name="message" rows="5" placeholder="Co chcete vytvořit?"></textarea>
           </label>
           <button class="button primary" type="submit">Odeslat zprávu</button>
+          <p class="form-note">Formulář je zatím ukázkový. Pro reálné odesílání se připojí e-mail nebo backend.</p>
         </form>
       </section>
 
