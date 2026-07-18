@@ -96,7 +96,7 @@ contactForm?.addEventListener("submit", (event) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      access_key: "VLOZTE_SEM_WEB3FORMS_ACCESS_KEY",
+      access_key: "24d1fc1d-552a-4ad7-93f6-cd0bd2ffb8c9",
       subject: `Nova poptavka Team ADEV - ${projectType}`,
       from_name: "Team ADEV - kontaktni formular",
       name: `Jmeno: ${name}`,
