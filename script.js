@@ -5,87 +5,116 @@ const formNote = document.querySelector(".form-note");
 const revealItems = document.querySelectorAll(".reveal");
 const goldField = document.querySelector(".gold-field");
 const customSelects = document.querySelectorAll("[data-select]");
+const successPopup = document.getElementById("successPopup");
+const popupCard = document.querySelector(".success-card");
 
-navToggle?.addEventListener("click", () => {
+let mouseX = 0;
+let mouseY = 0;
+let currentX = 0;
+let currentY = 0;
+
+function toggleNavigationMenu() {
+  if (!siteNav || !navToggle) return;
+
   const isOpen = siteNav.classList.toggle("is-open");
   navToggle.setAttribute("aria-expanded", String(isOpen));
-});
+}
 
-siteNav?.addEventListener("click", (event) => {
-  if (event.target instanceof HTMLAnchorElement) {
-    siteNav.classList.remove("is-open");
-    navToggle?.setAttribute("aria-expanded", "false");
-  }
-});
+function closeNavigationMenu() {
+  if (!siteNav || !navToggle) return;
 
-customSelects.forEach((select) => {
-  const trigger = select.querySelector(".custom-select-trigger");
-  const triggerText = trigger?.querySelector("span");
-  const menu = select.querySelector(".custom-select-menu");
-  const hiddenInput = select.closest(".field")?.querySelector('input[type="hidden"]');
-  const options = select.querySelectorAll("[data-value]");
+  siteNav.classList.remove("is-open");
+  navToggle.setAttribute("aria-expanded", "false");
+}
 
-  trigger?.addEventListener("click", () => {
-    const isOpen = select.classList.toggle("is-open");
-    trigger.setAttribute("aria-expanded", String(isOpen));
+function initializeNavigation() {
+  navToggle?.addEventListener("click", toggleNavigationMenu);
+
+  siteNav?.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLAnchorElement) {
+      closeNavigationMenu();
+    }
   });
+}
 
-  options.forEach((option) => {
-    option.addEventListener("click", () => {
-      const value = option.dataset.value || "";
-      if (triggerText) triggerText.textContent = value;
-      if (hiddenInput) hiddenInput.value = value;
+function initializeCustomSelects() {
+  customSelects.forEach((select) => {
+    const trigger = select.querySelector(".custom-select-trigger");
+    const triggerText = trigger?.querySelector("span");
+    const menu = select.querySelector(".custom-select-menu");
+    const hiddenInput = select.closest(".field")?.querySelector('input[type="hidden"]');
+    const options = select.querySelectorAll("[data-value]");
 
-      options.forEach((item) => item.setAttribute("aria-selected", "false"));
-      option.setAttribute("aria-selected", "true");
-      select.classList.remove("is-open");
-      trigger?.setAttribute("aria-expanded", "false");
+    trigger?.addEventListener("click", () => {
+      const isOpen = select.classList.toggle("is-open");
+      trigger.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const value = option.dataset.value || "";
+        if (triggerText) triggerText.textContent = value;
+        if (hiddenInput) hiddenInput.value = value;
+
+        options.forEach((item) => item.setAttribute("aria-selected", "false"));
+        option.setAttribute("aria-selected", "true");
+        select.classList.remove("is-open");
+        trigger?.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    menu?.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        select.classList.remove("is-open");
+        trigger?.setAttribute("aria-expanded", "false");
+        trigger?.focus();
+      }
     });
   });
 
   document.addEventListener("click", (event) => {
-    if (!select.contains(event.target)) {
-      select.classList.remove("is-open");
-      trigger?.setAttribute("aria-expanded", "false");
-    }
+    customSelects.forEach((select) => {
+      if (!select.contains(event.target)) {
+        select.classList.remove("is-open");
+        select.querySelector(".custom-select-trigger")?.setAttribute("aria-expanded", "false");
+      }
+    });
   });
+}
 
-  menu?.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      select.classList.remove("is-open");
-      trigger?.setAttribute("aria-expanded", "false");
-      trigger?.focus();
-    }
-  });
-});
+function resetFormState(button, originalText) {
+  button.textContent = originalText;
+  button.disabled = false;
+}
 
-contactForm?.addEventListener("submit", (event) => {
+function handleContactSubmit(event) {
   event.preventDefault();
-  const button = contactForm.querySelector("button");
-  if (!button) return;
+
+  const button = contactForm?.querySelector("button");
+  if (!button || !contactForm) return;
 
   const originalText = button.textContent;
-  button.textContent = "Odesilam...";
+  button.textContent = "Odesílám...";
   button.disabled = true;
   if (formNote) {
-    formNote.textContent = "Odesilam zpravu...";
+    formNote.textContent = "Odesílám zprávu...";
   }
 
   const formData = new FormData(contactForm);
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
   const phone = String(formData.get("phone") || "").trim();
-  const projectType = String(formData.get("projectType") || "Webova stranka").trim();
+  const projectType = String(formData.get("projectType") || "Webová stránka").trim();
   const message = String(formData.get("message") || "").trim();
 
   if (!name || !email || !message) {
-    button.textContent = "Vyplnte pole";
+    button.textContent = "Vyplňte pole";
     if (formNote) {
-      formNote.textContent = "Vyplnte prosim jmeno, e-mail i zpravu.";
+      formNote.textContent = "Vyplňte prosím jméno, e-mail i zprávu.";
     }
+
     window.setTimeout(() => {
-      button.textContent = originalText;
-      button.disabled = false;
+      resetFormState(button, originalText);
     }, 1800);
     return;
   }
@@ -97,55 +126,60 @@ contactForm?.addEventListener("submit", (event) => {
     },
     body: JSON.stringify({
       access_key: "24d1fc1d-552a-4ad7-93f6-cd0bd2ffb8c9",
-      subject: `Nova poptavka Team ADEV - ${projectType}`,
-      from_name: "Team ADEV - kontaktni formular",
-      name: `Jmeno: ${name}`,
+      subject: `Nová poptávka Team ADEV - ${projectType}`,
+      from_name: "Team ADEV - kontaktní formulář",
+      name: `Jméno: ${name}`,
       email,
       phone: phone || "Neuvedeno",
       project_type: projectType,
       message: [
-        "Nova zprava z webu Team ADEV",
+        "Nová zpráva z webu Team ADEV",
         "",
-        `Jmeno: ${name}`,
+        `Jméno: ${name}`,
         `E-mail: ${email}`,
         `Telefon: ${phone || "Neuvedeno"}`,
         `Typ projektu: ${projectType}`,
         "",
-        "Zprava:",
+        "Zpráva:",
         message,
         "",
-        "Rychla odpoved:",
-        phone ? "Zavolat nebo odpovedet na e-mail." : "Odpovedet na e-mail.",
+        "Rychlá odpověď:",
+        phone ? "Zavolat nebo odpovědět na e-mail." : "Odpovědět na e-mail.",
       ].join("\n"),
     }),
   })
     .then(async (response) => {
       const result = await response.json().catch(() => ({}));
       if (!response.ok) {
-        throw new Error(result.message || "Zpravu se nepodarilo odeslat.");
+        throw new Error(result.message || "Zprávu se nepodařilo odeslat.");
       }
 
-      button.textContent = "Zprava odeslana";
+      button.textContent = "Zpráva odeslána";
+      showSuccessPopup();
       if (formNote) {
-        formNote.textContent = "Hotovo. Zprava byla uspesne odeslana.";
+        formNote.textContent = "Hotovo. Zpráva byla úspěšně odeslána.";
       }
       contactForm.reset();
     })
     .catch((error) => {
-      button.textContent = "Chyba odeslani";
+      button.textContent = "Chyba odeslání";
       if (formNote) {
-        formNote.textContent = `Duvod: ${error.message || "Zkontrolujte Web3Forms access key."}`;
+        formNote.textContent = `Důvod: ${error.message || "Zkontrolujte Web3Forms access key."}`;
       }
     })
     .finally(() => {
       window.setTimeout(() => {
-        button.textContent = originalText;
-        button.disabled = false;
+        resetFormState(button, originalText);
       }, 1800);
     });
-});
+}
 
-if ("IntersectionObserver" in window) {
+function initializeRevealObserver() {
+  if (!("IntersectionObserver" in window)) {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+    return;
+  }
+
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -162,11 +196,11 @@ if ("IntersectionObserver" in window) {
   );
 
   revealItems.forEach((item) => revealObserver.observe(item));
-} else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
 }
 
-if (goldField instanceof HTMLCanvasElement) {
+function initializeGoldField() {
+  if (!(goldField instanceof HTMLCanvasElement)) return;
+
   const context = goldField.getContext("2d");
   const pointer = { x: 0, y: 0, active: false };
   let particles = [];
@@ -205,13 +239,18 @@ if (goldField instanceof HTMLCanvasElement) {
     goldField.style.width = `${width}px`;
     goldField.style.height = `${height}px`;
     context?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
     const count = Math.min(130, Math.max(58, Math.floor((width * height) / 15000)));
     particles = Array.from({ length: count }, createParticle);
-    lasers = Array.from({ length: Math.min(18, Math.max(8, Math.floor(width / 120))) }, createLaser);
+    lasers = Array.from(
+      { length: Math.min(18, Math.max(8, Math.floor(width / 120))) },
+      createLaser
+    );
   };
 
   const draw = (time) => {
     if (!context) return;
+
     context.clearRect(0, 0, width, height);
 
     const beam = context.createLinearGradient(0, 0, width, height);
@@ -306,3 +345,78 @@ if (goldField instanceof HTMLCanvasElement) {
   resizeField();
   requestAnimationFrame(draw);
 }
+
+function showSuccessPopup() {
+  if (!successPopup) return;
+
+  successPopup.classList.remove("hide");
+  successPopup.classList.add("show");
+  document.body.style.overflow = "hidden";
+
+  window.setTimeout(() => {
+    hideSuccessPopup();
+  }, 4000);
+}
+
+function hideSuccessPopup() {
+  if (!successPopup) return;
+
+  successPopup.classList.remove("show");
+  successPopup.classList.add("hide");
+  document.body.style.overflow = "";
+
+  window.setTimeout(() => {
+    successPopup.classList.remove("hide");
+  }, 450);
+}
+
+function initializeSuccessPopup() {
+  successPopup?.addEventListener("click", (event) => {
+    if (event.target === successPopup) {
+      hideSuccessPopup();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      hideSuccessPopup();
+    }
+  });
+
+  successPopup?.addEventListener("mousemove", (event) => {
+    if (!popupCard) return;
+
+    const rect = popupCard.getBoundingClientRect();
+    mouseX = ((event.clientX - rect.left) / rect.width - 0.5) * 8;
+    mouseY = ((event.clientY - rect.top) / rect.height - 0.5) * -8;
+  });
+
+  successPopup?.addEventListener("mouseleave", () => {
+    mouseX = 0;
+    mouseY = 0;
+  });
+}
+
+function animatePopup() {
+  currentX += (mouseY - currentX) * 0.04;
+  currentY += (mouseX - currentY) * 0.04;
+
+  if (popupCard) {
+    popupCard.style.transform = `
+      perspective(1200px)
+      rotateX(${currentX}deg)
+      rotateY(${currentY}deg)
+      translateY(-2px)
+    `;
+  }
+
+  requestAnimationFrame(animatePopup);
+}
+
+initializeNavigation();
+initializeCustomSelects();
+contactForm?.addEventListener("submit", handleContactSubmit);
+initializeRevealObserver();
+initializeGoldField();
+initializeSuccessPopup();
+animatePopup();
