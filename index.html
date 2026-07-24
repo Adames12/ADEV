@@ -187,6 +187,7 @@
             <textarea name="message" rows="5" placeholder="Co chcete vytvořit?"></textarea>
           </label>
           <button class="button primary" type="submit">Odeslat zprávu</button>
+          <p class="form-note">Zpráva dorazí na e-mail přes Web3Forms.</p>
         </form>
       </section>
 
@@ -261,6 +262,55 @@
         <span>Designed by Adam Jedlička</span>
       </div>
     </footer>
+
+    <!-- =======================================================
+         SUCCESS POPUP
+    ======================================================= -->
+    <div id="successPopup" class="success-overlay" role="dialog" aria-modal="true" aria-labelledby="successPopupTitle" aria-hidden="true">
+      <div class="overlay-bg"></div>
+
+      <div class="confetti" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="success-card">
+        <div class="shine"></div>
+        <div class="card-glow"></div>
+
+        <div class="success-icon" aria-hidden="true">
+          <svg class="success-ring" viewBox="0 0 140 140">
+            <circle class="ring" cx="70" cy="70" r="60"></circle>
+          </svg>
+
+          <svg class="success-check" viewBox="0 0 120 120">
+            <path d="M30 63 L52 84 L90 40"></path>
+          </svg>
+        </div>
+
+        <h2 id="successPopupTitle">Zpráva byla úspěšně odeslána</h2>
+        <p>
+          Děkujeme za váš zájem o spolupráci.<br /><br />
+          Ozveme se vám co nejdříve.
+        </p>
+
+        <div class="gold-divider"></div>
+
+        <div class="adev-logo-popup">
+          <img src="assets/adev-logo.png" alt="ADEV" />
+          <span>TEAM ADEV</span>
+        </div>
+
+        <button class="close-popup" type="button" onclick="hideSuccessPopup()">Zavřít</button>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
