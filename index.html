@@ -187,7 +187,7 @@
             <textarea name="message" rows="5" placeholder="Co chcete vytvořit?"></textarea>
           </label>
           <button class="button primary" type="submit">Odeslat zprávu</button>
-          <p class="form-note">Zpráva dorazí na e-mail přes Web3Forms.</p>
+          <p class="form-note">Zpráva bude bezpečně doručena přes EmailJS.</p>
         </form>
       </section>
 
@@ -312,6 +312,10 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init({publicKey:"7aVxaWnx_siDgxUY-"});
+</script>
+<script src="script.js"></script>
   </body>
 </html>
