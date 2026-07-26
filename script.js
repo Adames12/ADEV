@@ -90,17 +90,23 @@ function resetFormState(button, originalText) {
 function handleContactSubmit(event) {
   event.preventDefault();
 
+  console.count("SUBMIT");
+
   const button = contactForm?.querySelector("button");
+
   if (!button || !contactForm) return;
 
   const originalText = button.textContent;
+
   button.textContent = "Odesílám...";
   button.disabled = true;
+
   if (formNote) {
     formNote.textContent = "Odesílám zprávu...";
   }
 
   const formData = new FormData(contactForm);
+
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
   const phone = String(formData.get("phone") || "").trim();
@@ -108,70 +114,76 @@ function handleContactSubmit(event) {
   const message = String(formData.get("message") || "").trim();
 
   if (!name || !email || !message) {
+
     button.textContent = "Vyplňte pole";
+
     if (formNote) {
-      formNote.textContent = "Vyplňte prosím jméno, e-mail i zprávu.";
+      formNote.textContent =
+        "Vyplňte prosím jméno, e-mail i zprávu.";
     }
 
     window.setTimeout(() => {
       resetFormState(button, originalText);
     }, 1800);
+
     return;
   }
 
-  fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      access_key: "24d1fc1d-552a-4ad7-93f6-cd0bd2ffb8c9",
-      subject: `Nová poptávka Team ADEV - ${projectType}`,
-      from_name: "Team ADEV - kontaktní formulář",
-      name: `Jméno: ${name}`,
-      email,
-      phone: phone || "Neuvedeno",
-      project_type: projectType,
-      message: [
-        "Nová zpráva z webu Team ADEV",
-        "",
-        `Jméno: ${name}`,
-        `E-mail: ${email}`,
-        `Telefon: ${phone || "Neuvedeno"}`,
-        `Typ projektu: ${projectType}`,
-        "",
-        "Zpráva:",
-        message,
-        "",
-        "Rychlá odpověď:",
-        phone ? "Zavolat nebo odpovědět na e-mail." : "Odpovědět na e-mail.",
-      ].join("\n"),
-    }),
-  })
-    .then(async (response) => {
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(result.message || "Zprávu se nepodařilo odeslat.");
-      }
+  const initial = name.charAt(0).toUpperCase();
 
-      button.textContent = "Zpráva odeslána";
-      showSuccessPopup();
-      if (formNote) {
-        formNote.textContent = "Hotovo. Zpráva byla úspěšně odeslána.";
+  Promise.all([
+    
+    emailjs.send(
+      "service_6m00fe6",
+      "template_o9uf33g",
+      {
+        initial: initial,
+        name: name,
+        email: email,
+        phone: phone || "Neuvedeno",
+        project_type: projectType,
+        message: message
       }
-      contactForm.reset();
-    })
-    .catch((error) => {
-      button.textContent = "Chyba odeslání";
-      if (formNote) {
-        formNote.textContent = `Důvod: ${error.message || "Zkontrolujte Web3Forms access key."}`;
-      }
-    })
-    .finally(() => {
-      window.setTimeout(() => {
-        resetFormState(button, originalText);
-      }, 1800);
-    });
+    ),
+    
+  ])
+
+  .then(() => {
+
+    button.textContent = "Zpráva odeslána";
+
+    if (formNote) {
+      formNote.textContent =
+        "Hotovo. Zpráva byla úspěšně odeslána.";
+    }
+
+    contactForm.reset();
+
+    showSuccessPopup();
+
+  })
+
+  .catch((error) => {
+
+    console.error(error);
+
+    button.textContent = "Chyba odeslání";
+
+    if (formNote) {
+      formNote.textContent =
+        "Nepodařilo se odeslat formulář.";
+    }
+
+  })
+
+  .finally(() => {
+
+    window.setTimeout(() => {
+      resetFormState(button, originalText);
+    }, 1800);
+
+  });
+
 }
 
 function initializeRevealObserver() {
