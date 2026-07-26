@@ -186,6 +186,10 @@
             Zpráva
             <textarea name="message" rows="5" placeholder="Co chcete vytvořit?"></textarea>
           </label>
+          <div
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAAD-fTuhlKw3MPCeE">
+           </div>
           <button class="button primary" type="submit">Odeslat zprávu</button>
           <p class="form-note">Zpráva bude bezpečně doručena přes EmailJS.</p>
         </form>
@@ -317,5 +321,7 @@
 emailjs.init({publicKey:"7aVxaWnx_siDgxUY-"});
 </script>
 <script src="script.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<div id="notification-container"></div>
   </body>
 </html>
