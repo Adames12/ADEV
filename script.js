@@ -88,7 +88,19 @@ function resetFormState(button, originalText) {
 }
 
 function handleContactSubmit(event) {
-  event.preventDefault();
+  
+  const token = turnstile.getResponse();
+
+if (!token) {
+    showNotification(
+    "warning",
+    "Ověření",
+    "Prosím potvrďte, že nejste robot."
+);
+    return;
+}
+  
+event.preventDefault();
 
   console.count("SUBMIT");
 
@@ -432,3 +444,33 @@ initializeRevealObserver();
 initializeGoldField();
 initializeSuccessPopup();
 animatePopup();
+
+function showNotification(type, title, text){
+
+    const container = document.getElementById("notification-container");
+
+    const notification = document.createElement("div");
+
+    notification.className = `notification ${type}`;
+
+    notification.innerHTML = `
+        <div class="notification-title">${title}</div>
+        <div class="notification-text">${text}</div>
+    `;
+
+    container.appendChild(notification);
+
+    requestAnimationFrame(()=>{
+        notification.classList.add("show");
+    });
+
+    setTimeout(()=>{
+        notification.classList.remove("show");
+
+        setTimeout(()=>{
+            notification.remove();
+        },400);
+
+    },5000);
+
+}
