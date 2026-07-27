@@ -89,18 +89,18 @@ function resetFormState(button, originalText) {
 
 function handleContactSubmit(event) {
   
+  event.preventDefault();
+
   const token = turnstile.getResponse();
 
-if (!token) {
+ if (!token) {
     showNotification(
     "warning",
     "Ověření",
     "Prosím potvrďte, že nejste robot."
-);
+   );
     return;
-}
-  
-event.preventDefault();
+  }
 
   console.count("SUBMIT");
 
