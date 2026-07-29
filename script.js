@@ -7,6 +7,8 @@ const goldField = document.querySelector(".gold-field");
 const customSelects = document.querySelectorAll("[data-select]");
 const successPopup = document.getElementById("successPopup");
 const popupCard = document.querySelector(".success-card");
+const developmentOverlay = document.getElementById("developmentOverlay");
+const overlayClose = document.querySelector(".overlay-close");
 
 let mouseX = 0;
 let mouseY = 0;
@@ -437,12 +439,39 @@ function animatePopup() {
   requestAnimationFrame(animatePopup);
 }
 
+function showDevelopmentOverlay() {
+  if (!developmentOverlay) return;
+  developmentOverlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function hideDevelopmentOverlay() {
+  if (!developmentOverlay) return;
+  developmentOverlay.classList.remove("show");
+  developmentOverlay.classList.add("hide");
+  document.body.style.overflow = "";
+}
+
+function initializeDevelopmentOverlay() {
+  overlayClose?.addEventListener("click", hideDevelopmentOverlay);
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      hideDevelopmentOverlay();
+    }
+  });
+
+  window.addEventListener("load", () => {
+    showDevelopmentOverlay();
+  });
+}
+
 initializeNavigation();
 initializeCustomSelects();
 contactForm?.addEventListener("submit", handleContactSubmit);
 initializeRevealObserver();
 initializeGoldField();
 initializeSuccessPopup();
+initializeDevelopmentOverlay();
 animatePopup();
 
 function showNotification(type, title, text){
