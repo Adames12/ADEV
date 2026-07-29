@@ -11,6 +11,21 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div id="developmentOverlay" class="development-overlay show" role="dialog" aria-modal="true" aria-labelledby="devOverlayTitle" aria-describedby="devOverlayText">
+      <div class="overlay-backdrop"></div>
+      <div class="overlay-panel">
+        <div class="overlay-label">VE VÝVOJI</div>
+        <h1 id="devOverlayTitle">Team ADEV pracuje na novém webu</h1>
+        <p id="devOverlayText">
+          Tato stránka je momentálně v přípravě. Služby ještě nejsou plně aktivní,
+          ale brzy tu bude zcela nový premium zážitek.
+        </p>
+        <div class="overlay-actions">
+          <button type="button" class="button primary overlay-close">Zobrazit ukázku</button>
+        </div>
+      </div>
+    </div>
+
     <canvas class="gold-field" aria-hidden="true"></canvas>
 
     <header class="site-header">
