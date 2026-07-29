@@ -377,6 +377,7 @@ function showSuccessPopup() {
 
   successPopup.classList.remove("hide");
   successPopup.classList.add("show");
+  successPopup.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
   window.setTimeout(() => {
@@ -389,6 +390,7 @@ function hideSuccessPopup() {
 
   successPopup.classList.remove("show");
   successPopup.classList.add("hide");
+  successPopup.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 
   window.setTimeout(() => {
@@ -441,14 +443,19 @@ function animatePopup() {
 
 function showDevelopmentOverlay() {
   if (!developmentOverlay) return;
+
+  developmentOverlay.classList.remove("hide");
   developmentOverlay.classList.add("show");
+  developmentOverlay.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 }
 
 function hideDevelopmentOverlay() {
   if (!developmentOverlay) return;
+
   developmentOverlay.classList.remove("show");
   developmentOverlay.classList.add("hide");
+  developmentOverlay.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 }
 
