@@ -9,6 +9,7 @@ const successPopup = document.getElementById("successPopup");
 const popupCard = document.querySelector(".success-card");
 const developmentOverlay = document.getElementById("developmentOverlay");
 const overlayClose = document.querySelector(".overlay-close");
+const devTopBanner = document.getElementById("devTopBanner");
 
 let mouseX = 0;
 let mouseY = 0;
@@ -397,6 +398,64 @@ function hideSuccessPopup() {
     successPopup.classList.remove("hide");
   }, 450);
 }
+
+// Show a small top banner after the development overlay is dismissed
+function showDevTopBanner() {
+  if (!devTopBanner) return;
+  devTopBanner.classList.add("show");
+  devTopBanner.setAttribute("aria-hidden", "false");
+  const header = document.querySelector(".site-header");
+  const h = devTopBanner.getBoundingClientRect().height || 48;
+  if (header) header.style.top = `${h}px`;
+}
+
+function hideDevTopBanner() {
+  if (!devTopBanner) return;
+  devTopBanner.classList.remove("show");
+  devTopBanner.setAttribute("aria-hidden", "true");
+  const header = document.querySelector(".site-header");
+  if (header) header.style.top = "0";
+}
+
+function initializeDevBannerBehavior() {
+  // If user already dismissed overlay earlier, show top banner immediately
+  try {
+    const dismissed = localStorage.getItem("devOverlayDismissed");
+    if (dismissed) {
+      // ensure overlay is hidden
+      if (developmentOverlay) {
+        developmentOverlay.classList.remove("show");
+        developmentOverlay.classList.add("hide");
+        developmentOverlay.setAttribute("aria-hidden", "true");
+      }
+      showDevTopBanner();
+    } else {
+      // overlay visible by default via HTML; attach close handler
+      overlayClose?.addEventListener("click", () => {
+        if (developmentOverlay) {
+          developmentOverlay.classList.remove("show");
+          developmentOverlay.classList.add("hide");
+          developmentOverlay.setAttribute("aria-hidden", "true");
+        }
+        try {
+          localStorage.setItem("devOverlayDismissed", "1");
+        } catch (e) {
+          /* ignore */
+        }
+        showDevTopBanner();
+        // restore page scrolling
+        document.body.style.overflow = "";
+        window.setTimeout(() => developmentOverlay?.classList.remove("hide"), 450);
+      });
+    }
+  } catch (e) {
+    // localStorage may be unavailable
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeDevBannerBehavior();
+});
 
 function initializeSuccessPopup() {
   successPopup?.addEventListener("click", (event) => {
